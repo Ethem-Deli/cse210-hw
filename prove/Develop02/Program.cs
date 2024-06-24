@@ -224,8 +224,9 @@ namespace JournalApp
         }
     }
 }
-// MY COMMENTS FOR THE ABOVE PROGRAM
+//                      MY COMMENTS FOR THE ABOVE PROGRAM
 // This program exceeds the core requirements by implementing proper CSV handling for saving and loading,
 // allowing the journal entries to be easily opened and manipulated in spreadsheet software like Excel.
 // The program could be enhanced with user reminders, additional data storage.
 
+// also i have added comment on each line which explains what i have done for the code 
