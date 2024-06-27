@@ -1,118 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace JournalApp
 {
-    // Class representing a single journal entry
-    class Entry
-    {
-        public string Date { get; set; }
-        public string Prompt { get; set; }
-        public string Response { get; set; }
-
-        public Entry(string date, string prompt, string response)
-        {
-            Date = date;
-            Prompt = prompt;
-            Response = response;
-        }
-
-        public override string ToString()
-        {
-            return $"{Date} - {Prompt}\n{Response}\n";
-        }
-    }
-
-    // Class representing the journal which contains multiple entries
-    class Journal
-    {
-        private List<Entry> _entries;
-
-        public Journal()
-        {
-            _entries = new List<Entry>();
-        }
-
-        // Add a new entry to the journal
-        public void AddEntry(Entry entry)
-        {
-            _entries.Add(entry);
-        }
-
-        //Display all entries in the journal
-        public void DisplayEntries()
-        {
-            foreach (var entry in _entries)
-            {
-                Console.WriteLine(entry.ToString());
-            }
-        }
-
-        // Save all entries in the journal to a file
-        public void SaveToFile(string filename)
-        {
-            using (StreamWriter writer = new StreamWriter(filename))
-            {
-                foreach (var entry in _entries)
-                {
-                    // Handling CSV format: Enclose the prompt and response in quotes if they contain commas or quotes
-                    string prompt = entry.Prompt.Contains(",") || entry.Prompt.Contains("\"") ? $"\"{entry.Prompt.Replace("\"", "\"\"")}\"" : entry.Prompt;
-                    string response = entry.Response.Contains(",") || entry.Response.Contains("\"") ? $"\"{entry.Response.Replace("\"", "\"\"")}\"" : entry.Response;
-                    writer.WriteLine($"{entry.Date},{prompt},{response}");
-                }
-            }
-        }
-
-        // Load entries from a file into the journal
-        public void LoadFromFile(string filename)
-        {
-            _entries.Clear();
-            using (StreamReader reader = new StreamReader(filename))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    // Proper CSV handling: Split the line by commas and handle quoted fields
-                    var parts = ParseCsvLine(line);
-                    if (parts.Length == 3)
-                    {
-                        _entries.Add(new Entry(parts[0], parts[1], parts[2])); // Create and add a new entry
-                    }
-                }
-            }
-        }
-
-        //Parse a CSV line
-        private string[] ParseCsvLine(string line)
-        {
-            List<string> parts = new List<string>();
-            bool inQuotes = false;
-            string currentPart = "";
-
-            foreach (char c in line)
-            {
-                if (c == '"')
-                {
-                    inQuotes = !inQuotes;
-                }
-                else if (c == ',' && !inQuotes)
-                {
-                    parts.Add(currentPart);
-                    currentPart = "";
-                }
-                else
-                {
-                    currentPart += c;
-                }
-            }
-            parts.Add(currentPart);
-
-            return parts.ToArray();
-        }
-    }
-
     class Program
     {
         // List of prompts for journal entries
@@ -138,7 +28,6 @@ namespace JournalApp
             "How can I prioritize and organize my thoughts and ideas to effectively solve this problem or challenge?",
             "How can I apply my skills, knowledge, and experience to this problem or challenge?",
             "What is one challenge or prompt that I can give myself to push myself creatively?"
-
         };
 
         static Journal journal = new Journal();
@@ -152,15 +41,15 @@ namespace JournalApp
                 // Display menu options to the user
                 Console.WriteLine("  ");
                 Console.WriteLine("Welcome to Journal App");
-            
+                Console.WriteLine("  ");
                 Console.WriteLine("Please Select one of the following choices: ");
                 Console.WriteLine("  ");
-                Console.WriteLine("1. Write ");
+                Console.WriteLine("1. Write");
                 Console.WriteLine("2. Display the journal");
-                Console.WriteLine("3. Save ");
+                Console.WriteLine("3. Save");
                 Console.WriteLine("4. Load from a file");
                 Console.WriteLine("5. Exit");
-                Console.Write("What would like to do?: ");
+                Console.Write("What would you like to do?: ");
 
                 // Read user input
                 string choice = Console.ReadLine();
@@ -202,7 +91,7 @@ namespace JournalApp
             // Get the current date
             string date = DateTime.Now.ToString("yyyy-MM-dd");
 
-            // Create a new entry and add it to the journal
+            // Create a new entry and add it to journal
             Entry entry = new Entry(date, prompt, response);
             journal.AddEntry(entry);
         }
@@ -224,9 +113,7 @@ namespace JournalApp
         }
     }
 }
-//                      MY COMMENTS FOR THE ABOVE PROGRAM
+
 // This program exceeds the core requirements by implementing proper CSV handling for saving and loading,
 // allowing the journal entries to be easily opened and manipulated in spreadsheet software like Excel.
-// The program could be enhanced with user reminders, additional data storage.
-
-// also i have added comment on each line which explains what i have done for the code 
+// The program is structured to make it easier to maintain by separating each class into its own file.
