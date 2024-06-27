@@ -1,0 +1,53 @@
+*Principle of Abstraction:
+
+In software development is all about simplifying complex systems. By focusing on the essential features and ignoring the non-essential details,
+developers can manage complexity effectively. Think of it as breaking down a massive task into smaller, more manageable parts.
+consider the Python print("hello world") function. It seems simple on the surface, but behind the scenes, it encapsulates over 3,000 lines of C code.
+This abstraction allows us to use the function without needing to understand its intricate implementation.
+
+*Benefit:
+
+One of the major benefits of abstraction is improved code maintainability.
+When we create high level representations, it becomes easier to make changes in the underlying code 
+without disrupting the entire system. This leads to cleaner, modular code and making it easier the debugging processes
+and enhancement processes. In object oriented programming (OOP), we often achieve abstraction through the use of classes.
+
+*Example of Abstraction:
+
+In a recent project, we developed a Job class to represent job details and a Resume class to manage a list of jobs. Here’s a snippet of the code we used:
+
+public class Job
+{
+    public string _company;
+    public string _jobTitle;
+    public int _startYear;
+    public int _endYear;
+
+    public void Display()
+    {
+        Console.WriteLine($"{_jobTitle} ({_company}) {_startYear}-{_endYear}");
+    }
+}
+
+public class Resume
+{
+    public string _name;
+    public List<Job> _jobs = new List<Job>();
+
+    public void Display()
+    {
+        Console.WriteLine($"Name: {_name}");
+        Console.WriteLine("Jobs:");
+        foreach (var job in _jobs)
+        {
+            job.Display();
+        }
+    }
+
+
+* in Closing:
+
+In this example, the Job class abstracts the details of a job, including the job title, company,
+start year, and end year. The Display method encapsulates the logic for displaying job details.
+Similarly, the Resume class abstracts the concept of a resume, containing a name and a list of jobs.
+Its Display method iterates through the jobs and calls their Display methods.
