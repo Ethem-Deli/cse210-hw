@@ -1,0 +1,109 @@
+Hey there!
+o, let’s talk about inheritance in object-oriented programming (OOP). It’s one of those foundational concepts that makes OOP so powerful and fun to work with.
+Imagine you’re creating a mindfulness app. You start with a general blueprint for activities—this is your base class.
+It has some common features that every specific activity might need. When it’s time to create something specific,
+like a breathing exercise or a reflection session, you don’t start from scratch. Instead, you create a new class (a child class)
+that automatically includes all the cool features of the base (or parent) class. This is what we call inheritance.
+
+# Why is Inheritance Important?
+
+The beauty of inheritance lies in code reusability. When you inherit from a base class, you get to use all the existing code without rewriting it.
+This cuts down on redundancy and makes your codebase easier to manage and update. Think about it—if you need to tweak a common feature,
+you only do it in one place (the base class), and every derived class gets the update. It’s like magic! This leads to cleaner, more organized
+code and makes maintenance a breeze.
+
+**Let me give you an example From Real Life.
+
+
+Let’s go back to our mindfulness app. Suppose you have different activities like breathing exercises, 
+gratitude reflections, and listing exercises. They all share some common behaviors, such as starting and ending messages,
+and timing mechanisms. Instead of writing this shared behavior in each activity class, you put it all in a base class called Activity.
+Then, each specific activity class, like BreathingActivity or ReflectingActivity, can inherit from Activity and add any unique behavior they need.
+
+** My Code Example from the Each Program:
+
+Let's look at some code to illustrate this. Here’s a basic example in C# as below:
+C#
+
+public class Activity
+{
+    protected string _name;
+    protected string _description;
+    protected int _duration;
+
+    public void DisplayStartingMessage()
+    {
+        Console.WriteLine($"Starting {_name} Activity");
+        Console.WriteLine(_description);
+    }
+
+    public void DisplayEndingMessage()
+    {
+        Console.WriteLine($"You have completed {_name} Activity for {_duration} seconds.");
+    }
+
+    public void ShowSpinner(int seconds)
+    {
+        // Spinner logic here
+    }
+
+    public void ShowCountDown(int seconds)
+    {
+        // Countdown logic here
+    }
+}
+
+public class BreathingActivity : Activity
+{
+    public BreathingActivity()
+    {
+        _name = "Breathing";
+        _description = "This activity will help you relax by guiding you through breathing in and out slowly.";
+    }
+
+    public void Run()
+    {
+        DisplayStartingMessage();
+        for (int i = 0; i < _duration; i += 2)
+        {
+            Console.WriteLine("Breathe in...");
+            ShowCountDown(2);
+            Console.WriteLine("Breathe out...");
+            ShowCountDown(2);
+        }
+        DisplayEndingMessage();
+    }
+}
+
+public class ReflectingActivity : Activity
+{
+    private List<string> _prompts = new List<string> { "Think of a time when you stood up for someone else.", "Think of a time when you did something really difficult." };
+    private List<string> _questions = new List<string> { "Why was this experience meaningful to you?", "Have you ever done anything like this before?" };
+
+    public ReflectingActivity()
+    {
+        _name = "Reflecting";
+        _description = "This activity will help you reflect on times in your life when you have shown strength and resilience.";
+    }
+
+    public void Run()
+    {
+        DisplayStartingMessage();
+        string prompt = _prompts[new Random().Next(_prompts.Count)];
+        Console.WriteLine(prompt);
+        ShowSpinner(3);
+        foreach (string question in _questions)
+        {
+            Console.WriteLine(question);
+            ShowSpinner(3);
+        }
+        DisplayEndingMessage();
+    }
+}
+***Conclusion 
+
+In this example, the Activity class is our blueprint with shared attributes and methods for displaying messages and handling timing.
+The BreathingActivity and ReflectingActivity classes inherit from Activity, reusing its functionality and adding their own specific behaviors.
+So, there you go! That’s inheritance in a nutshell. It’s a powerful concept that makes coding more efficient and your codebase much easier to manage. Happy coding mate !
+
+see you in the next lesson…

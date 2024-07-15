@@ -1,0 +1,36 @@
+{
+  "Score": 10,
+  "Level": 1,
+  "Goals": [
+    {
+      "Name": "Run a marathon",
+      "Points": 1000,
+      "IsCompleted": false
+    },
+    {
+      "Name": "Read scriptures",
+      "Points": 100,
+      "IsCompleted": false
+    },
+    {
+      "RequiredCount": 10,
+      "CurrentCount": 2,
+      "BonusPoints": 500,
+      "Name": "Attend temple",
+      "Points": 50,
+      "IsCompleted": false
+    },
+    {
+      "Name": "Skip exercise",
+      "Points": -200,
+      "IsCompleted": false
+    },
+    {
+      "Progress": 1,
+      "Target": 100,
+      "Name": "Run 100 km",
+      "Points": 1000,
+      "IsCompleted": false
+    }
+  ]
+}
