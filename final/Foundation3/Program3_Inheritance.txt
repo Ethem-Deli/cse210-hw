@@ -2,6 +2,7 @@
 Question 1:What does the program do?
 -The program tracks events and produces marketing materials, including details and descriptions specific to each event type.
 
+
 Question 2:What are candidates for classes?
 -Event class
 -Lecture class
