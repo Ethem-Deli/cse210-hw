@@ -1,0 +1,228 @@
+                                                          Program 4: Polymorphism with Exercise Tracking    |    |    |    |    |    |    |    |    |    |
+Question 1:What does the program do?
+-The program tracks various exercise activities, calculating and displaying their distance, speed, pace, and providing summaries.
+
+Question 2:What are candidates for classes?
+-Activity Class
+-Running Class
+-Cycling Class
+-Swimming Class
+
+Question 3:What are the responsibilities of each class?
+-Activity Class
+  -Attributes:
+    +date: string — The date of the activity.
+    +length: int — The duration of the activity in minutes.
+-Methods:
+    +GetDistance(): Virtual method to be overridden.
+    +GetSpeed(): Virtual method to be overridden.
+    +GetPace(): Virtual method to be overridden.
+    +GetSummary(): Returns a summary string.
+    
+-Running Class (inherits Activity)
+  -Attributes:
+    +distance: float — The distance run in kilometers.
+-Methods:
+    +Override GetDistance(), GetSpeed(), GetPace().
+
+-Cycling Class (inherits Activity)
+  -Attributes:
+    +speed: float — The average speed in km/h.
+-Methods:
+    +Override GetDistance(), GetSpeed(), GetPace().
+
+-Swimming Class (inherits Activity)
+  -Attributes:
+    +laps: int — The number of laps swum.
+-Methods:
+    +Override GetDistance(), GetSpeed(), GetPace().
+
+Class Diagram
+
+--------------------------
+|       Activity         |
+--------------------------
+| - date: String         |
+| - length: Int          |
+--------------------------
+| + GetDistance(): Float |
+| + GetSpeed(): Float    |
+| + GetPace(): Float     |
+| + GetSummary(): String |
+--------------------------
+
+--------------------------
+|       Running          |
+--------------------------
+| - distance: Float      |
+--------------------------
+| + GetDistance(): Float |
+| + GetSpeed(): Float    |   
+| + GetPace(): Float     |
+--------------------------
+
+--------------------------
+|       Cycling          |
+--------------------------
+| - speed: Float         |
+--------------------------
+| + GetDistance(): Float |
+| + GetSpeed(): Float    |
+| + GetPace(): Float     |
+--------------------------
+
+--------------------------
+|       Swimming         |
+--------------------------
+| - laps: Int            |
+--------------------------
+| + GetDistance(): Float |
+| + GetSpeed(): Float    |
+| + GetPace(): Float     |
+--------------------------
+
+
+Example code C#:
+
+using System;
+
+public class Activity
+{
+    public string Date { get; set; }
+    public int Length { get; set; } // Length in minutes
+
+    public Activity(string date, int length)
+    {
+        Date = date;
+        Length = length;
+    }
+
+    public virtual float GetDistance()
+    {
+        return 0;
+    }
+
+    public virtual float GetSpeed()
+    {
+        return 0;
+    }
+
+    public virtual float GetPace()
+    {
+        return 0;
+    }
+
+    public virtual string GetSummary()
+    {
+        return $"Date: {Date}, Length: {Length} minutes";
+    }
+}
+
+public class Running : Activity
+{
+    public float Distance { get; set; } // Distance in kilometers
+
+    public Running(string date, int length, float distance)
+        : base(date, length)
+    {
+        Distance = distance;
+    }
+
+    public override float GetDistance()
+    {
+        return Distance;
+    }
+
+    public override float GetSpeed()
+    {
+        return Distance / (Length / 60.0f); // Speed in km/h
+    }
+
+    public override float GetPace()
+    {
+        return Length / Distance; // Pace in minutes per kilometer
+    }
+
+    public override string GetSummary()
+    {
+        return $"{base.GetSummary()}, Distance: {GetDistance()} km, Speed: {GetSpeed()} km/h, Pace: {GetPace()} min/km";
+    }
+}
+
+public class Cycling : Activity
+{
+    public float Speed { get; set; } // Speed in km/h
+
+    public Cycling(string date, int length, float speed)
+        : base(date, length)
+    {
+        Speed = speed;
+    }
+
+    public override float GetDistance()
+    {
+        return Speed * (Length / 60.0f); // Distance in kilometers
+    }
+
+    public override float GetSpeed()
+    {
+        return Speed;
+    }
+
+    public override float GetPace()
+    {
+        return 60 / Speed; // Pace in minutes per kilometer
+    }
+
+    public override string GetSummary()
+    {
+        return $"{base.GetSummary()}, Distance: {GetDistance()} km, Speed: {GetSpeed()} km/h, Pace: {GetPace()} min/km";
+    }
+}
+
+public class Swimming : Activity
+{
+    public int Laps { get; set; }
+    public float LapDistance { get; set; } = 0.05f; // Distance per lap in kilometers (assuming 50 meters per lap)
+
+    public Swimming(string date, int length, int laps)
+        : base(date, length)
+    {
+        Laps = laps;
+    }
+
+    public override float GetDistance()
+    {
+        return Laps * LapDistance;
+    }
+
+    public override float GetSpeed()
+    {
+        return GetDistance() / (Length / 60.0f); // Speed in km/h
+    }
+
+    public override float GetPace()
+    {
+        return Length / GetDistance(); // Pace in minutes per kilometer
+    }
+
+    public override string GetSummary()
+    {
+        return $"{base.GetSummary()}, Distance: {GetDistance()} km, Speed: {GetSpeed()} km/h, Pace: {GetPace()} min/km";
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Activity running = new Running("2024-07-18", 30, 5);
+        Activity cycling = new Cycling("2024-07-19", 60, 20);
+        Activity swimming = new Swimming("2024-07-20", 45, 30);
+
+        Console.WriteLine(running.GetSummary());
+        Console.WriteLine(cycling.GetSummary());
+        Console.WriteLine(swimming.GetSummary());
+    }
+}
+##Ethem Deli July 2024

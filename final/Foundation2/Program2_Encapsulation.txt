@@ -1,0 +1,280 @@
+                                                     Program 2: Encapsulation with Online Ordering    |     |         |      |     |       |         |        |      |     |
+
+Question 1:What does the program do?
+The program manages product orders, calculating total costs, and generating packing and shipping labels.
+
+Question 2: What are candidates for classes?
+- Order class
+- Product class
+- Customer class
+- Address class
+
+Question 3: What are the responsibilities of each class?
+
+- Order Class
+  - **Attributes:
+    - `products`: List<Product> — The list of products in the order.
+    - `customer`: Customer — The customer who placed the order.
+  - Methods:
+    - `CalculateTotalCost()`: Returns the total cost of the order.
+    - `GetPackingLabel()`: Returns a packing label string.
+    - `GetShippingLabel()`: Returns a shipping label string.
+    - `AddProduct(Product product)`: Adds a product to the order.
+
+- Product Class
+  - Attributes:
+    - `name`: string — The name of the product.
+    - `productID`: string — The unique ID of the product.
+    - `price`: float — The price of the product.
+    - `quantity`: int — The quantity of the product.
+  -Methods:
+    - `GetTotalCost()`: Returns the total cost for this product.
+
+- Customer Class
+  - Attributes:
+    - `name`: string — The name of the customer.
+    - `address`: Address — The address of the customer.
+  - Methods:
+    - `IsUSResident()`: Returns a boolean indicating if the customer is a US resident.
+
+- Address Class
+  - Attributes:
+    - `street`: string — The street address.
+    - `city`: string — The city.
+    - `stateProvince`: string — The state or province.
+    - `country`: string — The country.
+  - Methods:
+    - `IsUSAddress()`: Returns a boolean indicating if the address is in the US.
+    - `ToString()`: Returns the address as a formatted string.
+
+-Additional Classes and Responsibilities
+as per our team discussion we have figured out that there is no additional classes are necessary for this implementation.
+
+Determine the behaviors of these classes and list these as methods.
+- Order Class
+  - `CalculateTotalCost()`: Returns the total cost of the order.
+  - `GetPackingLabel()`: Returns a packing label string.
+  - `GetShippingLabel()`: Returns a shipping label string.
+  - `AddProduct(Product product)`: Adds a product to the order.
+
+- Product Class
+  - `GetTotalCost()`: Returns the total cost for this product.
+
+- Customer Class
+  - `IsUSResident()`: Returns a boolean indicating if the customer is a US resident.
+
+- Address Class
+  - `IsUSAddress()`: Returns a boolean indicating if the address is in the US.
+  - `ToString()`: Returns the address as a formatted string.
+
+ Determine the attributes these classes will need to have to support these behaviors and list them as member variables.
+- Order Class
+  - `products`: List<Product>
+  - `customer`: Customer
+
+- Product Class
+  - `name`: string
+  - `productID`: string
+  - `price`: float
+  - `quantity`: int
+
+- ustomer Class
+  - `name`: string
+  - `address`: Address
+
+- Address Class
+  - `street`: string
+  - `city`: string
+  - `stateProvince`: string
+  - `country`: string
+
+
+ Class Diagram
+----------------------------------
+|           Order                |
+----------------------------------
+| - products: List<Product>      |
+| - customer: Customer           |
+----------------------------------
+| + CalculateTotalCost(): float  |
+| + GetPackingLabel(): string    |
+| + GetShippingLabel(): string   |
+| + AddProduct(Product)          |
+----------------------------------
+
+----------------------------------
+|           Product              |
+----------------------------------
+| - name: string                 |
+| - productID: string            |
+| - price: float                 |
+| - quantity: int                |
+----------------------------------
+| + GetTotalCost(): float        |
+----------------------------------
+
+----------------------------------
+|           Customer             |
+----------------------------------
+| - name: string                 |
+| - address: Address             |
+----------------------------------
+| + IsUSResident(): bool         |
+----------------------------------
+
+----------------------------------
+|           Address              |
+----------------------------------
+| - street: string               |
+| - city: string                 |
+| - stateProvince: string        |
+| - country: string              |
+----------------------------------
+| + IsUSAddress(): bool          |
+| + ToString(): string           |
+----------------------------------
+
+ Description of Program Flow
+1. Create `Customer` and `Address` objects.
+2. Create `Order` object and associate it with `Customer`.
+3. Add `Product` objects to `Order` using `AddProduct`.
+4. Calculate the total cost of the order using `CalculateTotalCost`.
+5. Generate packing and shipping labels using `GetPackingLabel` and `GetShippingLabel`.
+
+
+
+Example in C#:
+
+using System;
+using System.Collections.Generic;
+
+public class Address
+{
+    public string Street { get; set; }
+    public string City { get; set; }
+    public string StateProvince { get; set; }
+    public string Country { get; set; }
+
+    public Address(string street, string city, string stateProvince, string country)
+    {
+        Street = street;
+        City = city;
+        StateProvince = stateProvince;
+        Country = country;
+    }
+
+    public bool IsUSAddress()
+    {
+        return Country.ToLower() == "us" || Country.ToLower() == "usa" || Country.ToLower() == "united states";
+    }
+
+    public override string ToString()
+    {
+        return $"{Street}, {City}, {StateProvince}, {Country}";
+    }
+}
+
+public class Customer
+{
+    public string Name { get; set; }
+    public Address Address { get; set; }
+
+    public Customer(string name, Address address)
+    {
+        Name = name;
+        Address = address;
+    }
+
+    public bool IsUSResident()
+    {
+        return Address.IsUSAddress();
+    }
+}
+
+public class Product
+{
+    public string Name { get; set; }
+    public string ProductID { get; set; }
+    public float Price { get; set; }
+    public int Quantity { get; set; }
+
+    public Product(string name, string productID, float price, int quantity)
+    {
+        Name = name;
+        ProductID = productID;
+        Price = price;
+        Quantity = quantity;
+    }
+
+    public float GetTotalCost()
+    {
+        return Price * Quantity;
+    }
+}
+
+public class Order
+{
+    public List<Product> Products { get; set; }
+    public Customer Customer { get; set; }
+
+    public Order(Customer customer)
+    {
+        Customer = customer;
+        Products = new List<Product>();
+    }
+
+    public void AddProduct(Product product)
+    {
+        Products.Add(product);
+    }
+
+    public float CalculateTotalCost()
+    {
+        float total = 0;
+        foreach (var product in Products)
+        {
+            total += product.GetTotalCost();
+        }
+        return total;
+    }
+
+    public string GetPackingLabel()
+    {
+        string label = "Packing Label:
+";
+        foreach (var product in Products)
+        {
+            label += $"{product.Quantity} x {product.Name}
+";
+        }
+        return label;
+    }
+
+    public string GetShippingLabel()
+    {
+        return $"Shipping To:
+{Customer.Name}
+{Customer.Address.ToString()}";
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Address address = new Address("123 Main St", "Anytown", "CA", "US");
+        Customer customer = new Customer("John Doe", address);
+        Order order = new Order(customer);
+
+        Product product1 = new Product("Laptop", "A123", 999.99f, 1);
+        Product product2 = new Product("Mouse", "B456", 19.99f, 2);
+
+        order.AddProduct(product1);
+        order.AddProduct(product2);
+
+        Console.WriteLine($"Total Cost: {order.CalculateTotalCost()}");
+        Console.WriteLine(order.GetPackingLabel());
+        Console.WriteLine(order.GetShippingLabel());
+    }
+}
+##Ethem Deli July 2024

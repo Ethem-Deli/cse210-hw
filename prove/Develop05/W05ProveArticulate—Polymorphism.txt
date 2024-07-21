@@ -1,0 +1,82 @@
+Polymorphism is a fundamental concept in object-oriented programming that allows objects of different classes to be treated as objects of a common superclass.
+The word "polymorphism" comes from the Greek words "poly" meaning "many" and "morph" meaning "form," so it means "many forms." In essence, polymorphism allows
+methods to do different things based on the object it is acting upon, even though they share the same name.
+
+A primary benefit of polymorphism is that it promotes flexibility and reusability in code. By using polymorphism, 
+developers can write more generic and reusable code, which can work with objects of various types without knowing their specific classes.
+This makes the code easier to maintain and extend.
+
+One application of polymorphism is in designing extensible frameworks where classes can implement or extend predefined interfaces or base classes.
+This allows the framework to interact with new classes seamlessly, without requiring modifications.
+In the program I developed, polymorphism is demonstrated through the use of an abstract base class Goal and several derived classes such as SimpleGoal,
+EternalGoal, ChecklistGoal, NegativeGoal, BonusGoal, and MilestoneGoal. Each of these derived classes implements the abstract methods defined in the Goal class,
+providing their own specific behaviors. Here’s an example from the code:
+
+code example :
+
+public abstract class Goal
+{
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int Points { get; set; }
+
+    public Goal(string name, string description, int points)
+    {
+        Name = name;
+        Description = description;
+        Points = points;
+    }
+
+    public abstract void RecordEvent();
+    public abstract string GetStringRepresentation();
+    public abstract string GetDetailsString();
+}
+
+public class SimpleGoal : Goal
+{
+    public SimpleGoal(string name, string description, int points) 
+        : base(name, description, points) { }
+
+    public override void RecordEvent()
+    {
+        // Simple goal logic
+    }
+
+    public override string GetStringRepresentation()
+    {
+        return $"SimpleGoal:{Name},{Description},{Points}";
+    }
+
+    public override string GetDetailsString()
+    {
+        return $"[Simple] {Name} - {Description} - {Points} points";
+    }
+}
+
+public class EternalGoal : Goal
+{
+    public EternalGoal(string name, string description, int points) 
+        : base(name, description, points) { }
+
+    public override void RecordEvent()
+    {
+        // Eternal goal logic
+    }
+
+    public override string GetStringRepresentation()
+    {
+        return $"EternalGoal:{Name},{Description},{Points}";
+    }
+
+    public override string GetDetailsString()
+    {
+        return $"[Eternal] {Name} - {Description} - {Points} points";
+    }
+}
+
+In this example, the Goal class defines the structure for different types of goals.
+The derived classes SimpleGoal and EternalGoal each provide specific implementations of the methods RecordEvent
+ GetStringRepresentation, and GetDetailsString. The GoalManager class can then use a collection of Goal objects,
+ and call these methods without needing to know the exact type of each goal. This is polymorphism in action, allowing the
+ same method to operate differently on different types of objects, promoting code reusability and extensibility.
+//Ethem deli july 2024

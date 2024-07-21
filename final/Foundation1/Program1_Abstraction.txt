@@ -1,0 +1,162 @@
+                                                Program 1: Abstraction with YouTube Videos |       |      |          |         |         |         |            
+
+Question 1. What does the program do?
+-The program tracks YouTube videos and the comments left on them by users, storing detailed information about each video and its comments.
+
+Question 2. What are candidates for classes?
+- Video
+- Comment
+
+Question 3. What are the responsibilities of each class?
+
+- Video Class
+  - Attributes:
+    - `title`: string — The title of the video.
+    - `author`: string — The author of the video.
+    - `length`: int — The length of the video in seconds.
+    - `comments`: List of `Comment` objects — The list of comments associated with the video.
+
+  - Methods:
+    - `GetNumberOfComments()`: Returns the number of comments on the video.
+    - `AddComment(Comment comment)`: Adds a new comment to the video.
+
+- Comment Class
+  - Attributes:
+    - `commenterName`: string — The name of the person who left the comment.
+    - `commentText`: string — The content of the comment.
+
+#Additional Classes and Responsibilities
+as per our team discussion we have figured out that there is no additional classes are necessary for this implementation.
+
+#Determine the behaviors of these classes and list these as methods.
+
+- Video Class
+  - `GetNumberOfComments()`: Returns the count of comments on the video.
+  - `AddComment(Comment comment)`: Adds a comment to the video.
+
+- Comment Class
+  - No additional methods are required for this implementation.
+
+ Determine the attributes these classes will need to have to support these behaviors and list them as member variables.
+
+- **Video Class**
+  - `title`: string
+  - `author`: string
+  - `length`: int
+  - `comments`: List of `Comment` objects
+
+- **Comment Class**
+  - `commenterName`: string
+  - `commentText`: string
+
+Include a class diagram for each class you will need.
+
+**Class Diagram**
+
+----------------------------------
+|           Video                |
+----------------------------------
+| - title: string                |
+| - author: string               |
+| - length: int                  |
+| - comments: List<Comment>      |
+----------------------------------
+| + GetNumberOfComments(): int   |
+| + AddComment(comment: Comment) |
+----------------------------------
+
+----------------------------------
+|           Comment              |
+----------------------------------
+| - commenterName: string        |
+| - commentText: string          |
+----------------------------------
+
+Include some kind of description or chart showing how the program will run or how these methods relate to one another.
+
+Program Flow Description:
+
+1. Create Video Objects:
+   - Instantiate `Video` objects with attributes such as title, author, and length.
+
+2. Add Comments:
+   - Use the `AddComment(Comment comment)` method of the `Video` class to associate `Comment` objects with a `Video`.
+
+3. Retrieve Number of Comments:
+   - Call `GetNumberOfComments()` on a `Video` object to get the count of comments.
+
+4. Display Details:
+   - Show the details of the video, including its title, author, length, and a list of comments.
+
+Example in C#:
+
+using System;
+using System.Collections.Generic;
+
+public class Comment
+{
+    public string CommenterName { get; set; }
+    public string CommentText { get; set; }
+    
+    public Comment(string commenterName, string commentText)
+    {
+        CommenterName = commenterName;
+        CommentText = commentText;
+    }
+}
+
+public class Video
+{
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public int Length { get; set; }
+    private List<Comment> comments;
+    
+    public Video(string title, string author, int length)
+    {
+        Title = title;
+        Author = author;
+        Length = length;
+        comments = new List<Comment>();
+    }
+    
+    public void AddComment(Comment comment)
+    {
+        comments.Add(comment);
+    }
+    
+    public int GetNumberOfComments()
+    {
+        return comments.Count;
+    }
+    
+    public void DisplayDetails()
+    {
+        Console.WriteLine($"Title: {Title}");
+        Console.WriteLine($"Author: {Author}");
+        Console.WriteLine($"Length: {Length} seconds");
+        foreach (var comment in comments)
+        {
+            Console.WriteLine($"{comment.CommenterName}: {comment.CommentText}");
+        }
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Video video = new Video("Sample Title", "Sample Author", 120);
+        
+        Comment comment1 = new Comment("Alice", "Great video!");
+        Comment comment2 = new Comment("Bob", "Very informative.");
+        
+        video.AddComment(comment1);
+        video.AddComment(comment2);
+        
+        Console.WriteLine($"Number of comments: {video.GetNumberOfComments()}");
+        
+        video.DisplayDetails();
+    }
+}
+##Ethem Deli July 2024

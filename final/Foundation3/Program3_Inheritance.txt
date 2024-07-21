@@ -1,0 +1,239 @@
+                                                     Program 3: Inheritance with Event Planning  |      |       |       |      |       |        |      |      |       |
+Question 1:What does the program do?
+-The program tracks events and produces marketing materials, including details and descriptions specific to each event type.
+
+Question 2:What are candidates for classes?
+-Event class
+-Lecture class
+-Reception class
+-OutdoorGathering class
+-Address class
+
+Question 3:What are the responsibilities of each class?
+
+-Event Class
+   -Attributes:
+   -title: string — The title of the event.
+   -description: string — A description of the event.
+   -date: string — The date of the event.
+   -time: string — The time of the event.
+    -address: Address — The address of the event.
+
+-Methods:
+  +GetStandardDetails(): Returns a standard detail string.
+  +GetFullDetails(): Returns a full detail string.
+  +GetShortDescription(): Returns a short description string. 
+
+-Lecture Class (inherits Event)
+-Attributes:
++speakerName: string — The name of the speaker.
++capacity: int — The capacity of the event.
+
+-Reception Class (inherits Event)
+-Attributes:
++RSVPEmail: string — The RSVP email for the event.
+
+-OutdoorGathering Class (inherits Event)
+-Attributes:
++weatherForecast: string — The weather forecast for the event.
+
+- Address Class
+  - Attributes:
+    + `street`: string — The street address.
+    + `city`: string — The city.
+    + `stateProvince`: string — The state or province.
+    + `country`: string — The country.
+  - Methods:
+    + `IsUSAddress()`: Returns a boolean indicating if the address is in the US.
+    + `ToString()`: Returns the address as a formatted string.
+
+
+Class Diagram
+----------------------------------
+|           Event                |
+----------------------------------
+|     - title: string            |
+|     - description: string      |
+|     - date: string             |
+|     - time: string             |
+|     - address: Address         |
+----------------------------------
+| + GetStandardDetails(): string |
+| + GetFullDetails(): string     |
+| + GetShortDescription(): string|
+----------------------------------
+
+----------------------------------
+|           Lecture              |
+----------------------------------
+|    - speakerName: string       |
+|    - capacity: int             |
+----------------------------------
+| + GetStandardDetails(): string |
+| + GetFullDetails(): string     |
+| + GetShortDescription(): string|
+----------------------------------
+
+----------------------------------
+|             Reception          |
+----------------------------------
+| - RSVPEmail: string            |
+----------------------------------
+| + GetStandardDetails(): string |
+| + GetFullDetails(): string     |
+| + GetShortDescription(): string|
+----------------------------------
+
+----------------------------------
+|         OutdoorGathering       |
+----------------------------------
+| - weatherForecast: string      |
+----------------------------------
+| + GetStandardDetails(): string |
+| + GetFullDetails(): string     |
+| + GetShortDescription(): string|
+----------------------------------
+
+----------------------------------
+|            Address             |
+---------------------------------- 
+| - street: string               |
+| - city: string                 |
+| - stateProvince: string        |
+| - country: string              |
+----------------------------------
+| + ToString(): string           |
+----------------------------------
+
+
+Description of Program Flow
+    Create Event objects and their subclasses (Lecture, Reception, OutdoorGathering).
+    Set attributes specific to each event type.
+    Generate standard, full, and short descriptions for each event using the appropriate methods.
+
+Example in C#:
+using System;
+
+public class Address
+{
+    public string Street { get; set; }
+    public string City { get; set; }
+    public string StateProvince { get; set; }
+    public string Country { get; set; }
+
+    public Address(string street, string city, string stateProvince, string country)
+    {
+        Street = street;
+        City = city;
+        StateProvince = stateProvince;
+        Country = country;
+    }
+
+    public override string ToString()
+    {
+        return $"{Street}, {City}, {StateProvince}, {Country}";
+    }
+}
+
+public class Event
+{
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public string Date { get; set; }
+    public string Time { get; set; }
+    public Address Address { get; set; }
+
+    public Event(string title, string description, string date, string time, Address address)
+    {
+        Title = title;
+        Description = description;
+        Date = date;
+        Time = time;
+        Address = address;
+    }
+
+    public virtual string GetStandardDetails()
+    {
+        return $"Event: {Title}\nDescription: {Description}\nDate: {Date}\nTime: {Time}\nLocation: {Address.ToString()}";
+    }
+
+    public virtual string GetFullDetails()
+    {
+        return GetStandardDetails();
+    }
+
+    public virtual string GetShortDescription()
+    {
+        return $"{Title} on {Date} at {Time}";
+    }
+}
+
+public class Lecture : Event
+{
+    public string SpeakerName { get; set; }
+    public int Capacity { get; set; }
+
+    public Lecture(string title, string description, string date, string time, Address address, string speakerName, int capacity)
+        : base(title, description, date, time, address)
+    {
+        SpeakerName = speakerName;
+        Capacity = capacity;
+    }
+
+    public override string GetFullDetails()
+    {
+        return $"{GetStandardDetails()}\nSpeaker: {SpeakerName}\nCapacity: {Capacity}";
+    }
+}
+
+public class Reception : Event
+{
+    public string RSVPEmail { get; set; }
+
+    public Reception(string title, string description, string date, string time, Address address, string rsvpEmail)
+        : base(title, description, date, time, address)
+    {
+        RSVPEmail = rsvpEmail;
+    }
+
+    public override string GetFullDetails()
+    {
+        return $"{GetStandardDetails()}\nRSVP Email: {RSVPEmail}";
+    }
+}
+
+public class OutdoorGathering : Event
+{
+    public string WeatherForecast { get; set; }
+
+    public OutdoorGathering(string title, string description, string date, string time, Address address, string weatherForecast)
+        : base(title, description, date, time, address)
+    {
+        WeatherForecast = weatherForecast;
+    }
+
+    public override string GetFullDetails()
+    {
+        return $"{GetStandardDetails()}\nWeather Forecast: {WeatherForecast}";
+    }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        Address address = new Address("456 Elm St", "Anycity", "TX", "US");
+
+        Event lecture = new Lecture("Science Lecture", "A lecture on quantum physics", "2024-08-01", "10:00 AM", address, "Dr. Smith", 100);
+        Event reception = new Reception("Wedding Reception", "A celebration of marriage", "2024-08-05", "6:00 PM", address, "rsvp@wedding.com");
+        Event outdoorGathering = new OutdoorGathering("Music Festival", "A day of live music", "2024-08-10", "12:00 PM", address, "Sunny, 25°C");
+
+        Console.WriteLine(lecture.GetFullDetails());
+        Console.WriteLine();
+        Console.WriteLine(reception.GetFullDetails());
+        Console.WriteLine();
+        Console.WriteLine(outdoorGathering.GetFullDetails());
+    }
+}
+
+##Ethem Deli July 2024
